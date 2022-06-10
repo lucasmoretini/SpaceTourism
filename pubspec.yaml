@@ -63,6 +63,7 @@ flutter:
     - assets/images/terra.png
     - assets/images/terra.jpeg
     - assets/images/marte.png
+    - assets/images/astronauts.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

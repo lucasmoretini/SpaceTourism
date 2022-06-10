@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:space_tourism/src/app/components/button_component.dart';
 import 'package:space_tourism/src/app/components/form_outline_component.dart';
+import 'package:space_tourism/src/app/modules/creators_page/creators_page.dart';
 
 import 'package:space_tourism/src/app/utils/export.dart';
 
@@ -11,6 +12,24 @@ import '../spaceship_page/spaceship_page.dart';
 class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    navigateToSpaceShipScreen() {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SpaceshipPage(),
+        ),
+      );
+    }
+
+    navigateToCreatorsPage() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CreatorsPage(),
+        ),
+      );
+    }
+
     Widget CustomScrollView({required Widget child}) {
       return LayoutBuilder(
         builder: (context, constraint) {
@@ -41,18 +60,15 @@ class IntroPage extends StatelessWidget {
             FormOutlinePattern(label: password),
             const SizedBox(height: 30),
             ButtonPattern(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SpaceshipPage(),
-                  ),
-                );
-              },
+              onPressed: navigateToSpaceShipScreen,
               buttonText: entry,
               primaryColor: const Color.fromARGB(255, 101, 2, 194),
               secondColor: Colors.white,
             ),
+            TextButton(
+              onPressed: navigateToCreatorsPage,
+              child: const Text("Criadores do projeto"),
+            )
           ],
         ),
       );

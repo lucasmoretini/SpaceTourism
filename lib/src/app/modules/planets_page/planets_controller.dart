@@ -26,4 +26,9 @@ class PlanetsController extends ChangeNotifier {
       pathImage: "assets/images/marte.png",
     )
   ];
+
+  shufflePlanets() {
+    transactionList.shuffle();
+    notifyListeners();
+  }
 }
