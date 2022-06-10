@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:space_tourism/src/app/components/floating_action_button.dart';
 import 'package:space_tourism/src/app/modules/intro_page/intro_page.dart';
+import 'package:space_tourism/src/app/modules/planets_page/planets_page.dart';
 import 'package:space_tourism/src/app/modules/spaceship_page/spaceship_controller.dart';
 
 import '../../components/button_component.dart';
@@ -76,11 +77,11 @@ class _SpaceshipPageState extends State<SpaceshipPage> {
     );
   }
 
-  navigatePageCreators() {
+  navigateToPlanetsPage() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => IntroPage(),
+        builder: (context) => PlanetsPage(),
       ),
     );
   }
@@ -173,7 +174,7 @@ class _SpaceshipPageState extends State<SpaceshipPage> {
         actions: <Widget>[ExitApp()],
       ),
       floatingActionButton: FloatingActionButtonComponent(
-        onPressed: navigatePageCreators,
+        onPressed: navigateToPlanetsPage,
       ),
       body: Column(
         children: [
