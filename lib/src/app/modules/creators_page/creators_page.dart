@@ -1,25 +1,31 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
+import 'package:space_tourism/src/app/components/button_component.dart';
+import 'package:space_tourism/src/app/components/custom_modal_component.dart';
+import 'package:space_tourism/src/app/components/custom_scrollview_component.dart';
+import 'package:space_tourism/src/app/model/creator_model.dart';
+import 'package:space_tourism/src/app/modules/creators_page/creators_controller.dart';
+import 'package:space_tourism/src/app/utils/paddings.dart';
 
-class CreatorsPage extends StatelessWidget {
+class CreatorsPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _CreatorsPageState();
+  }
+}
+
+class _CreatorsPageState extends State<CreatorsPage> {
+  final controller = CreatorsController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget CustomScrollView({required Widget child}) {
-      return LayoutBuilder(
-        builder: (context, constraint) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraint.maxHeight),
-              child: IntrinsicHeight(
-                child: child,
-              ),
-            ),
-          );
-        },
-      );
-    }
-
     var image = Image.asset(
       "assets/images/astronauts.jpeg",
       width: double.infinity,
@@ -29,7 +35,7 @@ class CreatorsPage extends StatelessWidget {
     var textIntro = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
-        SizedBox(height: 8),
+        SizedBox(height: 16),
         Text(
           "Criadores do Projeto",
           textAlign: TextAlign.center,
@@ -41,65 +47,101 @@ class CreatorsPage extends StatelessWidget {
           child: Text(
             "Clique sobre os foguetes para conhecer os criadores do projeto.",
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.normal,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
           ),
         ),
         SizedBox(height: 8),
       ],
     );
 
+    var rockets = AnimatedContainer(
+      duration: const Duration(seconds: 1),
+      padding: const EdgeInsets.only(bottom: 0, top: 0),
+      alignment:
+          controller.status ? Alignment.bottomCenter : Alignment.topCenter,
+      child: AnimatedOpacity(
+        duration: const Duration(seconds: 1),
+        opacity: controller.status ? 1 : 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              alignment: Alignment.center,
+              iconSize: 64,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    CreatorModel creator = controller.creators[0];
+                    return CustomModal(
+                      img: creator.pathImage!,
+                      title: creator.name!,
+                      descriptions: creator.rm!,
+                      text: "fechar",
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.rocket,
+                color: Colors.blue,
+                size: 64,
+              ),
+            ),
+            IconButton(
+              iconSize: 64,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    CreatorModel creator = controller.creators[1];
+                    return CustomModal(
+                      img: creator.pathImage!,
+                      title: creator.name!,
+                      descriptions: creator.rm!,
+                      text: "fechar",
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.rocket,
+                color: Colors.red,
+                size: 64,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    var buttonToggleRockets = Padding(
+      padding: EdgeInsets.only(
+        top: AppPaddings.topPadding,
+        left: AppPaddings.borderPadding,
+        right: AppPaddings.borderPadding,
+        bottom: 60,
+      ),
+      child: ButtonPattern(
+        onPressed: controller.toggleRockets,
+        buttonText: controller.status ? "Lançar foguetes" : "Recolher foguetes",
+        primaryColor: const Color.fromARGB(255, 101, 2, 194),
+        secondColor: Colors.white,
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(),
-      body: CustomScrollView(
+      body: CustomScrollViewComponent(
         child: Column(
           children: [
             image,
-            Expanded(
-              flex: 1,
-              child: textIntro,
-            ),
+            textIntro,
             Expanded(
               flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Ink(
-                    decoration: const ShapeDecoration(
-                      color: Colors.black26,
-                      shape: const CircleBorder(),
-                    ),
-                    child: IconButton(
-                      iconSize: 64,
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.rocket,
-                        color: Colors.blue,
-                        size: 64,
-                      ),
-                    ),
-                  ),
-                  Ink(
-                    decoration: const ShapeDecoration(
-                      color: Colors.black26,
-                      shape: CircleBorder(),
-                    ),
-                    child: IconButton(
-                      iconSize: 64,
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.rocket,
-                        color: Colors.red,
-                        size: 64,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: rockets,
             ),
+            buttonToggleRockets,
           ],
         ),
       ),

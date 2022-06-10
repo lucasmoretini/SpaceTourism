@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:space_tourism/src/app/components/button_component.dart';
+import 'package:space_tourism/src/app/components/custom_scrollview_component.dart';
 import 'package:space_tourism/src/app/components/form_outline_component.dart';
 import 'package:space_tourism/src/app/modules/creators_page/creators_page.dart';
 
@@ -27,21 +28,6 @@ class IntroPage extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => CreatorsPage(),
         ),
-      );
-    }
-
-    Widget CustomScrollView({required Widget child}) {
-      return LayoutBuilder(
-        builder: (context, constraint) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraint.maxHeight),
-              child: IntrinsicHeight(
-                child: child,
-              ),
-            ),
-          );
-        },
       );
     }
 
@@ -101,7 +87,7 @@ class IntroPage extends StatelessWidget {
     );
 
     return Scaffold(
-      body: CustomScrollView(
+      body: CustomScrollViewComponent(
         child: Column(
           children: [
             image,
