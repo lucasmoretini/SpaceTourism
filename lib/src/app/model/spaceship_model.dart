@@ -1,7 +1,6 @@
 class SpaceshipModel {
   final String? spaceshipName;
+  final String? spaceshipDescription;
 
-  SpaceshipModel({
-    this.spaceshipName
-  });
+  SpaceshipModel({this.spaceshipName, this.spaceshipDescription});
 }
